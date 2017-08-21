@@ -1,3 +1,21 @@
+===================================================================================
+
+Applications required.
+
+- Bison
+- Flex
+- Byacc
+
+===================================================================================
+Compilation and Execution of Lex program:
+
+lex filename.l
+gcc lex.yy.c –ll
+
+===================================================================================
+Programs for today's lab.
+
+
 /*Program to count no of:
 a) +ve and –ve integers
 b) +ve and –ve fractions*/
@@ -44,7 +62,7 @@ main()
 #include<stdio.h>
 int lines=0, words=0,s_letters=0,c_letters=0, num=0, spl_char=0,total=0;
 %}
-                                 /*end of defination*/ 
+                                 /*end of defination*/
 %%
                                  /* the prinf of the rules can be written without {} if its a single variable*/
 \n { lines++; words++;}
@@ -101,7 +119,7 @@ printf(“No of vowels=%d\nNo of consonants=%d\n”, vowels,cons);
 }
 
 
-LEX Program to scan for even and odd numbers 
+LEX Program to scan for even and odd numbers
 %{
 /*
 1.Request input of an even and an odd number
@@ -115,7 +133,7 @@ int number_2;
 %}
 number_sequence [0-9]*
 %%
-	
+
 {number_sequence}[0|2|4|6|8] {
 printf("Even number [%d]",yyleng);
 return atoi(yytext);
