@@ -12,7 +12,7 @@ int main(){
         a[i]=i*2;
         b[i]=i*3;
     }
-    #pragma omp parallel for default(shared) num_threads(4) private(i,result) schedule(static,chunk)// reduction(+:result)
+    #pragma omp parallel for default(shared) num_threads(4) private(i) schedule(static,chunk)// reduction(+:result)
     for(i=0;i<n;i++)
         result=result+(a[i]*b[i]);
 

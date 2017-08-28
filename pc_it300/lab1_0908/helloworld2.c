@@ -6,9 +6,9 @@ int main(int argc, char const *argv[]) {
 	int i=10;
 
 	// Choose one of the below and compile
-	#pragma omp parallel private(n, thread_id) shared(i)
+	// #pragma omp parallel private(n, thread_id) shared(i)
 	// #pragma omp parallel private(n, thread_id, i)
-	// #pragma omp parallel private(n, thread_id) firstprivate(i)
+	#pragma omp parallel private(n, thread_id) firstprivate(i)
 	{
 		// Get thread Number
 		thread_id = omp_get_thread_num();
