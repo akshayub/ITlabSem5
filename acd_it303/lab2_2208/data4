@@ -1,0 +1,10 @@
+Design of a Lexical Analyzer using Finite Automation
+Design of lexical analyzer using LEX
+Design of recursive descent and LL (1) parsers
+Implementation of Operator precedence Parsing
+Design of parser for arithmetic expressions using YACC
+Design of a simple type checker
+Generation of IC for arithmetic expressions
+Simple code optimization strategies
+Design of a code generator
+Writing a simple Compiler
