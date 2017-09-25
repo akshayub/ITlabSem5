@@ -29,8 +29,13 @@ void merge(int *x, int l, int m, int r) {
 void mergesort(int *x, int l, int r) {
 	if (l < r) {
 		int m = l + (r-l)/2;
-		mergesort(x, l, m);
-		mergesort(x, m+1, r);
+		#pragma omp parallel sections
+		{
+			#pragma omp section
+			mergesort(x, l, m);
+			#pragma omp section
+			mergesort(x, m+1, r);
+		}
 		merge(x, l, m, r);
 	}
 }
