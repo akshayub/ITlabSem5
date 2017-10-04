@@ -2,41 +2,51 @@
 #include <stdlib.h>
 #include <omp.h>
 #include <sys/time.h>
+#define BMP_PIXEL_BEGIN 1078
 
 int main(int argc, char *argv[]) {
 
-	if (argc != 2){
-		printf("usage : use commmandline argument for image filename\n");
+	if (argc != 3){
+		printf("usage : use commmandline argument for image filename and threshold percentage\n");
 		exit(-1);
 	}
 
 	char *filename = argv[1];
+	// varies from -128 to 127
+	char threshold = (atoi(argv[2])*255/100.0);
+	int fileLen = 0;
 
 	struct timeval tstart, tend;
 	struct timezone temp;
 
 	FILE *file = fopen(filename, "rb");
-	FILE *opfile = fopen("output.bmp", "w");
+
+	fseek(file, 0, 2);
+	fileLen = ftell(file);
+	printf("File Size : %d\n", fileLen);
+	fseek(file, 0, 0);
+
+	char filebytes[fileLen];
+
+	fread(&filebytes, sizeof(char), fileLen, file);
 
 	gettimeofday(&tstart, &temp);
+	int i;
 
-	char get_char;
-	int counter = 0, max = 54;
-	while((get_char=fgetc(file))!= EOF) {
-		if (counter >= max){
-			if (get_char > 0)
-				get_char = 120;
-			else
-				get_char = -120;
-			counter++;
-		}
-		fprintf(opfile, "%c", get_char);
+	#pragma omp parallel for num_threads(4)
+	for (i = BMP_PIXEL_BEGIN; i<fileLen; i++ ) {
+		if (filebytes[i] >= threshold)
+			filebytes[i] = 0;
+		else
+			filebytes[i] = 255;
 	}
-	fprintf(opfile, "%c", get_char);
 
 	gettimeofday(&tend, &temp);
 
 	fclose(file);
+
+	FILE *opfile = fopen("output.bmp", "wb");
+	fwrite(&filebytes, sizeof(char), fileLen, opfile);
 	fclose(opfile);
 
 	printf("Time taken %lf\n",
